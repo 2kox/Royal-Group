@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Group</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: black;
+            color: white;
+            padding: 20px 20px;
+            margin-top: 0;
+        }
+
+        header .image-container {
+            background-color: black;
+            display: inline-block;
+            margin-bottom: 5px; /* Further adjusted spacing */
+        }
+
+        header .image {
+            width: 150px; /* Reduced logo size */
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 30px; /* Slightly reduced text size */
+            margin: 0; /* Moved text further upwards */
+        }
+
+        /* Links Styling */
+        .link-container {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white; /* Updated to white background */
+            color: black; /* Changed text color to black for contrast */
+            text-decoration: none;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            border: 2px solid black; /* Outline style */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .link img {
+            width: 30px; /* Increased width for better visibility */
+            height: 30px; /* Increased height for better visibility */
+            margin-right: 10px; /* Align beside text */
+        }
+
+        .link:hover {
+            background-color: #f0f0f0; /* Slight color change on hover */
+            transform: scale(1.05);
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px;
+            font-size: 14px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+
+            .link {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="image-container">
+            <img src="logo.png" alt="Royal Group Logo" class="image">
+        </div>
+        <h1>Royal Group</h1>
+    </header>
+
+    <!-- Links Section -->
+    <div class="link-container">
+        <a href="https://www.instagram.com/royal.plato" class="link" target="_blank">
+            <img src="instagram-icon.png" alt="Instagram Logo">Instagram
+        </a>
+		<a href="https://n9.cl/o58b0" class="link" target="_blank">Rules</a>
+        <a href="https://forms.gle/uyNE7zz2yYF2jevk9" class="link" target="_blank">Black List</a>
+        <a href="https://forms.gle/FgdFm5YqSHsbp6hy8" class="link" target="_blank">Tournaments</a>
+    </div>
+
+    <footer>
+        &copy; Royal Group. All rights reserved.
+    </footer>
+</body>
+</html>
