@@ -15,21 +15,23 @@
 
         async function loadGallery() {
             try {
+                // Fetch all images from the 'gallery' folder
                 const response = await axios.get(
                     `https://res.cloudinary.com/${CLOUD_NAME}/resources/image/list/gallery.json`
                 );
-                const images = response.data.resources;
 
+                const images = response.data.resources || [];
                 const galleryDiv = document.getElementById('gallery');
+
                 images.forEach(image => {
                     const imgElement = document.createElement('img');
                     imgElement.src = image.secure_url;
-                    imgElement.alt = image.context.alt || 'No comment provided';
+                    imgElement.alt = image.context ? image.context.alt : 'No comment';
                     imgElement.style.width = '200px';
                     imgElement.style.margin = '10px';
 
                     const commentElement = document.createElement('p');
-                    commentElement.textContent = image.context.alt || 'No comment provided';
+                    commentElement.textContent = image.context ? image.context.alt : 'No comment';
 
                     const container = document.createElement('div');
                     container.style.marginBottom = '20px';
