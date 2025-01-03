@@ -1,39 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Image</title>
-</head>
-<body>
-    <h1>Upload Your Image</h1>
-    <button id="upload_widget">Upload Image</button>
+<script>
+    const cloudName = "dyetbyoy3"; // اسم الحساب في Cloudinary
+    const uploadPreset = "Royal Group"; // إعدادات الرفع
 
-    <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
-    <script>
-        const cloudName = "dyetbyoy3"; // استبدل بـ اسم حساب Cloudinary الخاص بك
-        const uploadPreset = "Royal Group"; // استبدل بـ الـ upload preset الخاص بك
+    const uploadWidget = cloudinary.createUploadWidget(
+        {
+            cloudName: cloudName,
+            uploadPreset: uploadPreset,
+        },
+        async (error, result) => {
+            if (!error && result && result.event === "success") {
+                const imageUrl = result.info.secure_url;
+                console.log("رابط الصورة:", imageUrl);
 
-        const uploadWidget = cloudinary.createUploadWidget(
-            {
-                cloudName: cloudName,
-                uploadPreset: uploadPreset,
-            },
-            (error, result) => {
-                if (!error && result && result.event === "success") {
-                    console.log("Uploaded image URL: ", result.info.secure_url);
-                    alert("Image uploaded successfully!");
-                }
+                // إرسال رابط الصورة إلى خادم الخلفية
+                await fetch("https://example.com/save-image", { // استبدل بـ عنوان خادمك
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ url: imageUrl, comment: "تعليق الصورة" })
+                });
+
+                alert("تم رفع الصورة بنجاح!");
             }
-        );
+        }
+    );
 
-        document.getElementById("upload_widget").addEventListener(
-            "click",
-            () => {
-                uploadWidget.open();
-            },
-            false
-        );
-    </script>
-</body>
-</html>
+    document.getElementById("upload_widget").addEventListener("click", () => {
+        uploadWidget.open();
+    });
+</script>
