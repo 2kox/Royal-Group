@@ -32,12 +32,12 @@
         const CLOUD_NAME = 'dyetbyoy3';
         const fetchGalleryImages = async () => {
             try {
-                const response = await axios.get(`https://res.cloudinary.com/${CLOUD_NAME}/image/list/gallery.json`);
+                const response = await axios.get(`https://res.cloudinary.com/${dyetbyoy3}/image/list/gallery.json`);
                 const images = response.data.resources;
                 const gallery = document.getElementById('gallery');
                 images.forEach(image => {
                     const imgElement = document.createElement('img');
-                    imgElement.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
+                    imgElement.src = `https://res.cloudinary.com/${dyetbyoy3}/image/upload/${image.public_id}.${image.format}`;
                     imgElement.alt = image.context?.custom?.alt || 'Gallery Image';
                     gallery.appendChild(imgElement);
                 });
