@@ -39,6 +39,8 @@
                     const response = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, formData);
                     document.getElementById('statusMessage').textContent = 'Image uploaded successfully!';
                     console.log('Uploaded image:', response.data);
+                    window.location.href = 'gallery.html'; // Redirect to the gallery page
+
                 } catch (error) {
                     console.error('Error uploading image:', error);
                     document.getElementById('statusMessage').textContent = 'Error uploading image!';
