@@ -12,14 +12,17 @@
                 const imageUrl = result.info.secure_url;
                 console.log("رابط الصورة:", imageUrl);
 
-                // إرسال رابط الصورة إلى خادم الخلفية
-                await fetch("https://example.com/save-image", { // استبدل بـ عنوان خادمك
+                // إرسال رابط الصورة إلى الخادم الخلفي
+                await fetch("http://localhost:3000/save-image", { // خادم الخلفية
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ url: imageUrl, comment: "تعليق الصورة" })
+                    body: JSON.stringify({
+                        url: imageUrl,
+                        comment: "تعليق الصورة" // يمكن تخصيص هذا
+                    })
                 });
 
-                alert("تم رفع الصورة بنجاح!");
+                alert("تم رفع الصورة وحفظها بنجاح!");
             }
         }
     );
