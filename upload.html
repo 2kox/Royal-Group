@@ -1,55 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Image to Cloudinary</title>
-</head>
-<body>
-    <h2>Upload your image</h2>
-    <form id="uploadForm">
-        <input type="file" name="file" id="fileInput" accept="image/*" />
-        <button type="submit">Upload</button>
-    </form>
+<script>
+    const cloudName = 'YOUR_CLOUD_NAME';
+    const uploadPreset = 'YOUR_UPLOAD_PRESET';
 
-    <div id="imagePreview"></div>
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-        // Cloudinary credentials
-        const cloudName = 'YOUR_CLOUD_NAME'; // Replace with your Cloudinary cloud name
-        const uploadPreset = 'YOUR_UPLOAD_PRESET'; // Replace with your upload preset
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', uploadPreset);
 
-        // Function to upload image
-        document.getElementById('uploadForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
-
-            if (file) {
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('upload_preset', uploadPreset);
-
-                // Make a POST request to Cloudinary to upload the file
-                axios.post(https://api.cloudinary.com/v1_1/${cloudName}/image/upload, formData)
-                    .then(response => {
-                        const imageUrl = response.data.secure_url;
-                        console.log('Image uploaded to:', imageUrl);
-                        
-                        // Show the uploaded image on the page
-                        const imageElement = document.createElement('img');
-                        imageElement.src = imageUrl;
-                        document.getElementById('imagePreview').appendChild(imageElement);
-                        
-                        // Redirect to gallery page with the uploaded image
-                        window.location.href = gallery.html?image=${encodeURIComponent(imageUrl)};
-                    })
-                    .catch(error => {
-                        console.error('Error uploading image:', error);
-                    });
-            }
-        });
-    </script>
-</body>
-</html>
+            axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData)
+                .then(response => {
+                    const imageUrl = response.data.secure_url;
+                    console.log('Image uploaded to:', imageUrl);
+                    
+                    // Redirect to gallery or notify to refresh the gallery
+                    window.location.href = 'gallery.html';
+                })
+                .catch(error => {
+                    console.error('Error uploading image:', error);
+                });
+        }
+    });
+</script>
