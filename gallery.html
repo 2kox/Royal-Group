@@ -29,29 +29,24 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         const CLOUD_NAME = 'dyetbyoy3'; // Replace with your Cloudinary cloud name
-        const API_KEY = '891185683182792'; // Replace with your Cloudinary API key
-        const API_SECRET = 'piqmBGXEM3mAWxI1EK0n4hUgqOE'; // Replace with your Cloudinary API secret
 
         const fetchGalleryImages = async () => {
             try {
-                const auth = btoa(`${API_KEY}:${API_SECRET}`);
-                const response = await axios.get(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/resources/image/folder/gallery`, {
-                    headers: {
-                        Authorization: `Basic ${auth}`
-                    }
-                });
+                const response = await axios.get(`https://res.cloudinary.com/${CLOUD_NAME}/image/list/gallery.json`);
                 const images = response.data.resources;
                 const gallery = document.getElementById('gallery');
+                gallery.innerHTML = ''; // Clear the gallery before appending new images
                 images.forEach(image => {
                     const imgElement = document.createElement('img');
                     imgElement.src = image.secure_url;
-                    imgElement.alt = image.context?.custom?.alt || 'Gallery Image';
+                    imgElement.alt = 'Gallery Image';
                     gallery.appendChild(imgElement);
                 });
             } catch (error) {
                 console.error('Error fetching gallery images:', error);
             }
         };
+
         fetchGalleryImages();
     </script>
 </body>
