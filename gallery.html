@@ -3,94 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery - 𝐑𝐨𝐲𝐚𝐥 𝐆𝐫𝐨𝐮𝐩</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: black;
-            color: white;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            padding: 20px;
-        }
-
-        header h1 {
-            font-size: 24px;
-        }
-
-        .gallery-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .image-card {
-            border: 2px solid white;
-            border-radius: 10px;
-            overflow: hidden;
-            width: 200px;
-        }
-
-        .image-card img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .image-card p {
-            padding: 10px;
-            font-size: 14px;
-            color: #ccc;
-        }
-
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            padding: 10px;
-            font-size: 12px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-    </style>
+    <title>Gallery</title>
 </head>
 <body>
-    <header>
-        <h1>Gallery - Uploaded Images</h1>
-    </header>
-
-    <div class="gallery-container" id="gallery"></div>
-
-    <footer>
-        &copy; 𝐑𝐨𝐲𝐚𝐥 𝐆𝐫𝐨𝐮𝐩
-    </footer>
+    <h2>Gallery</h2>
+    <div id="gallery"></div>
 
     <script>
-        // قائمة بروابط الصور (مثال: روابط Cloudinary)
-        const imageUrls = [
-            "https://res.cloudinary.com/YOUR_CLOUD_NAME/image/upload/v1234567890/example1.jpg",
-            "https://res.cloudinary.com/YOUR_CLOUD_NAME/image/upload/v1234567890/example2.jpg",
-            "https://res.cloudinary.com/YOUR_CLOUD_NAME/image/upload/v1234567890/example3.jpg"
-        ];
+        // Load image URL from the query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const imageUrl = urlParams.get('image');
 
-        const galleryContainer = document.getElementById('gallery');
-
-        // عرض الصور على الصفحة
-        imageUrls.forEach(url => {
-            const imageCard = document.createElement('div');
-            imageCard.className = 'image-card';
-            imageCard.innerHTML = `
-                <img src="${url}" alt="Uploaded Image">
-                <p>Uploaded via Royal Group</p>
-            `;
-            galleryContainer.appendChild(imageCard);
-        });
+        if (imageUrl) {
+            const imgElement = document.createElement('img');
+            imgElement.src = imageUrl;
+            document.getElementById('gallery').appendChild(imgElement);
+        } else {
+            console.log('No image to display');
+        }
     </script>
 </body>
 </html>
