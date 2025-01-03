@@ -28,12 +28,12 @@
                 images.forEach(image => {
                     const imgElement = document.createElement('img');
                     imgElement.src = image.secure_url;
-                    imgElement.alt = image.context ? image.context.alt : 'No comment';
+                    imgElement.alt = image.context ? image.context.custom.alt : 'No comment';
                     imgElement.style.width = '200px';
                     imgElement.style.margin = '10px';
 
                     const commentElement = document.createElement('p');
-                    commentElement.textContent = image.context ? image.context.alt : 'No comment';
+                    commentElement.textContent = image.context ? image.context.custom.alt : 'No comment';
 
                     const container = document.createElement('div');
                     container.style.marginBottom = '20px';
