@@ -20,6 +20,8 @@
                     `https://res.cloudinary.com/${CLOUD_NAME}/resources/image/list/gallery.json`
                 );
 
+                console.log('Fetched response:', response.data); // Debug fetched data
+
                 const images = response.data.resources || [];
                 const galleryDiv = document.getElementById('gallery');
 
@@ -45,7 +47,7 @@
             }
         }
 
-        loadGallery();
+        loadGallery(); // Automatically calls the function when the page loads
     </script>
 </body>
 </html>
