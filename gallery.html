@@ -1,26 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
-</head>
-<body>
-    <h2>Gallery</h2>
-    <div id="gallery"></div>
+<script>
+    const cloudName = 'YOUR_CLOUD_NAME';
 
-    <script>
-        // Load image URL from the query string
-        const urlParams = new URLSearchParams(window.location.search);
-        const imageUrl = urlParams.get('image');
+    // Fetch images from Cloudinary
+    async function loadGallery() {
+        try {
+            const response = await axios.get(`https://res.cloudinary.com/${cloudName}/image/list/gallery.json`);
+            const images = response.data.resources;
 
-        if (imageUrl) {
-            const imgElement = document.createElement('img');
-            imgElement.src = imageUrl;
-            document.getElementById('gallery').appendChild(imgElement);
-        } else {
-            console.log('No image to display');
+            const galleryDiv = document.getElementById('gallery');
+            images.forEach(image => {
+                const imgElement = document.createElement('img');
+                imgElement.src = image.secure_url;
+                galleryDiv.appendChild(imgElement);
+            });
+        } catch (error) {
+            console.error('Error fetching images:', error);
         }
-    </script>
-</body>
-</html>
+    }
+
+    loadGallery();
+</script>
