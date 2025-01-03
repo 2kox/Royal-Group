@@ -1,53 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
-</head>
-<body>
-    <h2>Gallery</h2>
-    <div id="gallery"></div>
+<script>
+    const CLOUD_NAME = 'dyetbyoy3'; // اسم السحابة الخاص بك
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-        const CLOUD_NAME = 'dyetbyoy3'; // Replace with your Cloudinary cloud name
+    async function loadGallery() {
+        try {
+            const response = await axios.get(
+                `https://res.cloudinary.com/${CLOUD_NAME}/resources/image/list/gallery.json`
+            );
 
-        async function loadGallery() {
-            try {
-                // Fetch all images from the 'gallery' folder
-                const response = await axios.get(
-                    `https://res.cloudinary.com/${dyetbyoy3}/resources/image/list/gallery.json`
-                );
+            console.log('Fetched response:', response.data);
 
-                console.log('Fetched response:', response.data); // Debug fetched data
+            const images = response.data.resources || [];
+            const galleryDiv = document.getElementById('gallery');
 
-                const images = response.data.resources || [];
-                const galleryDiv = document.getElementById('gallery');
+            images.forEach(image => {
+                const imgElement = document.createElement('img');
+                imgElement.src = image.secure_url;
+                imgElement.alt = image.context ? image.context.alt : 'No comment';
+                imgElement.style.width = '200px';
+                imgElement.style.margin = '10px';
 
-                images.forEach(image => {
-                    const imgElement = document.createElement('img');
-                    imgElement.src = image.secure_url;
-                    imgElement.alt = image.context ? image.context.custom.alt : 'No comment';
-                    imgElement.style.width = '200px';
-                    imgElement.style.margin = '10px';
+                const commentElement = document.createElement('p');
+                commentElement.textContent = image.context ? image.context.alt : 'No comment';
 
-                    const commentElement = document.createElement('p');
-                    commentElement.textContent = image.context ? image.context.custom.alt : 'No comment';
+                const container = document.createElement('div');
+                container.style.marginBottom = '20px';
+                container.appendChild(imgElement);
+                container.appendChild(commentElement);
 
-                    const container = document.createElement('div');
-                    container.style.marginBottom = '20px';
-                    container.appendChild(imgElement);
-                    container.appendChild(commentElement);
-
-                    galleryDiv.appendChild(container);
-                });
-            } catch (error) {
-                console.error('Error fetching images:', error);
-            }
+                galleryDiv.appendChild(container);
+            });
+        } catch (error) {
+            console.error('Error fetching images:', error);
         }
+    }
 
-        loadGallery(); // Automatically calls the function when the page loads
-    </script>
-</body>
-</html>
+    loadGallery();
+</script>
