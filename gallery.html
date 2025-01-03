@@ -26,18 +26,25 @@
 <body>
     <h1>Gallery</h1>
     <div class="gallery" id="gallery"></div>
-
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        const CLOUD_NAME = 'dyetbyoy3';
+        const CLOUD_NAME = 'dyetbyoy3'; // Replace with your Cloudinary cloud name
+        const API_KEY = '891185683182792'; // Replace with your Cloudinary API key
+        const API_SECRET = 'piqmBGXEM3mAWxI1EK0n4hUgqOE'; // Replace with your Cloudinary API secret
+
         const fetchGalleryImages = async () => {
             try {
-                const response = await axios.get(`https://res.cloudinary.com/${dyetbyoy3}/image/list/gallery.json`);
+                const auth = btoa(`${API_KEY}:${API_SECRET}`);
+                const response = await axios.get(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/resources/image/folder/gallery`, {
+                    headers: {
+                        Authorization: `Basic ${auth}`
+                    }
+                });
                 const images = response.data.resources;
                 const gallery = document.getElementById('gallery');
                 images.forEach(image => {
                     const imgElement = document.createElement('img');
-                    imgElement.src = `https://res.cloudinary.com/${dyetbyoy3}/image/upload/${image.public_id}.${image.format}`;
+                    imgElement.src = image.secure_url;
                     imgElement.alt = image.context?.custom?.alt || 'Gallery Image';
                     gallery.appendChild(imgElement);
                 });
