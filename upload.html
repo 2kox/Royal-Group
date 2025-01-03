@@ -1,28 +1,50 @@
-<script>
-    const cloudName = 'dyetbyoy3';
-    const uploadPreset = 'ml_default';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image to Cloudinary</title>
+</head>
+<body>
+    <h2>Upload your image with a comment</h2>
+    <form id="uploadForm">
+        <input type="file" name="file" id="fileInput" accept="image/*" required />
+        <input type="text" name="comment" id="commentInput" placeholder="Enter your comment" required />
+        <button type="submit">Upload</button>
+    </form>
 
-    document.getElementById('uploadForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
+    <div id="statusMessage"></div>
 
-        if (file) {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', uploadPreset);
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const cloudName = 'dyetbyoy3'; // Replace with your Cloudinary cloud name
+        const uploadPreset = 'ml_default'; // Replace with your upload preset
 
-            axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData)
-                .then(response => {
-                    const imageUrl = response.data.secure_url;
-                    console.log('Image uploaded to:', imageUrl);
-                    
-                    // Redirect to gallery or notify to refresh the gallery
-                    window.location.href = 'gallery.html';
-                })
-                .catch(error => {
-                    console.error('Error uploading image:', error);
-                });
-        }
-    });
-</script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const fileInput = document.getElementById('fileInput');
+            const commentInput = document.getElementById('commentInput');
+            const file = fileInput.files[0];
+            const comment = commentInput.value;
+
+            if (file && comment) {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', uploadPreset);
+                formData.append('context', `alt=${comment}`); // Save comment as metadata
+
+                axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, formData)
+                    .then(response => {
+                        document.getElementById('statusMessage').textContent = 'Image uploaded successfully!';
+                        console.log('Uploaded image:', response.data);
+                    })
+                    .catch(error => {
+                        console.error('Error uploading image:', error);
+                        document.getElementById('statusMessage').textContent = 'Error uploading image!';
+                    });
+            }
+        });
+    </script>
+</body>
+</html>
