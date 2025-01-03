@@ -6,9 +6,9 @@ const path = require('path');
 
 // إعداد Cloudinary
 cloudinary.config({
-    cloud_name: 'YOUR_CLOUD_NAME',   // استبدل بـ Cloud Name الخاص بك
-    api_key: 'YOUR_API_KEY',         // استبدل بـ API Key الخاص بك
-    api_secret: 'YOUR_API_SECRET'    // استبدل بـ API Secret الخاص بك
+    cloud_name: 'dyetbyoy3',   // استبدل بـ Cloud Name الخاص بك
+    api_key: '891185683182792',         // استبدل بـ API Key الخاص بك
+    api_secret: 'piqmBGXEM3mAWxI1EK0n4hUgqOE'    // استبدل بـ API Secret الخاص بك
 });
 
 // إعداد Express
