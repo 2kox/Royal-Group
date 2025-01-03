@@ -4,30 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Image</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: black; color: white; }
-        button { padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; background-color: #007bff; color: white; cursor: pointer; }
-        button:hover { background-color: #0056b3; }
-    </style>
 </head>
 <body>
     <h1>Upload Your Image</h1>
-    <button id="upload_widget_opener">Upload Image</button>
+    <button id="upload_widget">Upload Image</button>
 
-    <script src="https://upload.widget.cloudinary.com/v2.0/global/all.js"></script>
+    <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
     <script>
-        const cloudinaryWidget = cloudinary.createUploadWidget({
-            cloudName: 'dyetbyoy3',
-            uploadPreset: 'Royal Group'
-        }, (error, result) => {
-            if (result.event === 'success') {
-                alert('Image uploaded successfully!');
-            }
-        });
+        const cloudName = "dyetbyoy3"; // استبدل بـ اسم حساب Cloudinary الخاص بك
+        const uploadPreset = "Royal Group"; // استبدل بـ الـ upload preset الخاص بك
 
-        document.getElementById('upload_widget_opener').addEventListener('click', function () {
-            cloudinaryWidget.open();
-        });
+        const uploadWidget = cloudinary.createUploadWidget(
+            {
+                cloudName: cloudName,
+                uploadPreset: uploadPreset,
+            },
+            (error, result) => {
+                if (!error && result && result.event === "success") {
+                    console.log("Uploaded image URL: ", result.info.secure_url);
+                    alert("Image uploaded successfully!");
+                }
+            }
+        );
+
+        document.getElementById("upload_widget").addEventListener(
+            "click",
+            () => {
+                uploadWidget.open();
+            },
+            false
+        );
     </script>
 </body>
 </html>
