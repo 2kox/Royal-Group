@@ -3,49 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Image to Cloudinary</title>
+    <title>Upload Image</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: black; color: white; }
+        button { padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; background-color: #007bff; color: white; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
 </head>
 <body>
-    <h2>Upload your image with a comment</h2>
-    <form id="uploadForm">
-        <input type="file" name="file" id="fileInput" accept="image/*" required />
-        <input type="text" name="comment" id="commentInput" placeholder="Enter your comment" required />
-        <button type="submit">Upload</button>
-    </form>
+    <h1>Upload Your Image</h1>
+    <button id="upload_widget_opener">Upload Image</button>
 
-    <div id="statusMessage"></div>
-
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://upload.widget.cloudinary.com/v2.0/global/all.js"></script>
     <script>
-        const CLOUD_NAME = 'dyetbyoy3'; // Replace with your Cloudinary cloud name
-        const UPLOAD_PRESET = 'ml_default'; // Replace with your upload preset
-
-        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const fileInput = document.getElementById('fileInput');
-            const commentInput = document.getElementById('commentInput');
-            const file = fileInput.files[0];
-            const comment = commentInput.value;
-
-            if (file && comment) {
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('upload_preset', UPLOAD_PRESET);
-                formData.append('folder', 'gallery'); // Ensure images go to the 'gallery' folder
-                formData.append('context', `alt=${comment}`); // Add the comment as metadata
-
-                try {
-                    const response = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, formData);
-                    document.getElementById('statusMessage').textContent = 'Image uploaded successfully!';
-                    console.log('Uploaded image:', response.data);
-                    window.location.href = 'gallery.html'; // Redirect to the gallery page
-
-                } catch (error) {
-                    console.error('Error uploading image:', error);
-                    document.getElementById('statusMessage').textContent = 'Error uploading image!';
-                }
+        const cloudinaryWidget = cloudinary.createUploadWidget({
+            cloudName: 'YOUR_CLOUD_NAME',
+            uploadPreset: 'YOUR_UPLOAD_PRESET'
+        }, (error, result) => {
+            if (result.event === 'success') {
+                alert('Image uploaded successfully!');
             }
+        });
+
+        document.getElementById('upload_widget_opener').addEventListener('click', function () {
+            cloudinaryWidget.open();
         });
     </script>
 </body>
