@@ -6,48 +6,60 @@
     <title>Gallery</title>
     <style>
         body {
+            background-color: #121212;
+            color: white;
             text-align: center;
-            background-color: #000;
-            color: #fff;
         }
-        .gallery {
+        .gallery-container {
             display: flex;
             flex-wrap: wrap;
+            gap: 15px;
             justify-content: center;
-            gap: 10px;
         }
-        .gallery img {
+        .gallery-container img {
             max-width: 200px;
-            border: 2px solid #fff;
-            border-radius: 5px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
 <body>
     <h1>Gallery</h1>
-    <div class="gallery" id="gallery"></div>
+    <div class="gallery-container" id="gallery"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        const CLOUD_NAME = 'dyetbyoy3'; // Replace with your Cloudinary cloud name
+        const CLOUD_NAME = "dyetbyoy3"; // Replace with your Cloudinary cloud name
+        const FOLDER_NAME = "gallery"; // Replace with your folder name if different
 
-        const fetchGalleryImages = async () => {
+        const loadGallery = async () => {
             try {
-                const response = await axios.get(`https://res.cloudinary.com/${CLOUD_NAME}/image/list/gallery.json`);
+                // Fetch images from the folder using Cloudinary Admin API
+                const response = await axios.get(
+                    `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${FOLDER_NAME}.json`
+                );
                 const images = response.data.resources;
-                const gallery = document.getElementById('gallery');
-                gallery.innerHTML = ''; // Clear the gallery before appending new images
-                images.forEach(image => {
-                    const imgElement = document.createElement('img');
+
+                // Get the gallery container
+                const galleryContainer = document.getElementById("gallery");
+
+                // Clear the gallery before adding new images
+                galleryContainer.innerHTML = "";
+
+                // Add images to the gallery
+                images.forEach((image) => {
+                    const imgElement = document.createElement("img");
                     imgElement.src = image.secure_url;
-                    imgElement.alt = 'Gallery Image';
-                    gallery.appendChild(imgElement);
+                    imgElement.alt = "Gallery Image";
+                    galleryContainer.appendChild(imgElement);
                 });
             } catch (error) {
-                console.error('Error fetching gallery images:', error);
+                console.error("Error fetching images from Cloudinary:", error);
             }
         };
 
-        fetchGalleryImages();
+        // Call the function to load the gallery
+        loadGallery();
     </script>
 </body>
 </html>
