@@ -1,26 +1,49 @@
-async function loadGallery() {
-    try {
-        const response = await axios.get(`https://res.cloudinary.com/YOUR_CLOUD_NAME/resources/image/list/gallery.json`);
-        const images = response.data.resources;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+</head>
+<body>
+    <h2>Gallery</h2>
+    <div id="gallery"></div>
 
-        const galleryDiv = document.getElementById('gallery');
-        images.forEach(image => {
-            const imgElement = document.createElement('img');
-            imgElement.src = image.secure_url;
-            imgElement.alt = image.context.alt; // عرض التعليق
-            imgElement.style.width = '200px';
-            imgElement.style.margin = '10px';
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const CLOUD_NAME = 'dyetbyoy3'; // Replace with your Cloudinary cloud name
 
-            const commentElement = document.createElement('p');
-            commentElement.textContent = image.context.alt || 'No comment provided';
+        async function loadGallery() {
+            try {
+                const response = await axios.get(
+                    `https://res.cloudinary.com/${CLOUD_NAME}/resources/image/list/gallery.json`
+                );
+                const images = response.data.resources;
 
-            const container = document.createElement('div');
-            container.appendChild(imgElement);
-            container.appendChild(commentElement);
+                const galleryDiv = document.getElementById('gallery');
+                images.forEach(image => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = image.secure_url;
+                    imgElement.alt = image.context.alt || 'No comment provided';
+                    imgElement.style.width = '200px';
+                    imgElement.style.margin = '10px';
 
-            galleryDiv.appendChild(container);
-        });
-    } catch (error) {
-        console.error('Error fetching images:', error);
-    }
-}
+                    const commentElement = document.createElement('p');
+                    commentElement.textContent = image.context.alt || 'No comment provided';
+
+                    const container = document.createElement('div');
+                    container.style.marginBottom = '20px';
+                    container.appendChild(imgElement);
+                    container.appendChild(commentElement);
+
+                    galleryDiv.appendChild(container);
+                });
+            } catch (error) {
+                console.error('Error fetching images:', error);
+            }
+        }
+
+        loadGallery();
+    </script>
+</body>
+</html>
