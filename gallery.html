@@ -1,38 +1,51 @@
-<script>
-    const CLOUD_NAME = 'dyetbyoy3'; // اسم السحابة الخاص بك
-
-    async function loadGallery() {
-        try {
-            const response = await axios.get(
-                `https://res.cloudinary.com/${CLOUD_NAME}/resources/image/list/gallery.json`
-            );
-
-            console.log('Fetched response:', response.data);
-
-            const images = response.data.resources || [];
-            const galleryDiv = document.getElementById('gallery');
-
-            images.forEach(image => {
-                const imgElement = document.createElement('img');
-                imgElement.src = image.secure_url;
-                imgElement.alt = image.context ? image.context.alt : 'No comment';
-                imgElement.style.width = '200px';
-                imgElement.style.margin = '10px';
-
-                const commentElement = document.createElement('p');
-                commentElement.textContent = image.context ? image.context.alt : 'No comment';
-
-                const container = document.createElement('div');
-                container.style.marginBottom = '20px';
-                container.appendChild(imgElement);
-                container.appendChild(commentElement);
-
-                galleryDiv.appendChild(container);
-            });
-        } catch (error) {
-            console.error('Error fetching images:', error);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #000;
+            color: #fff;
         }
-    }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .gallery img {
+            max-width: 200px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gallery</h1>
+    <div class="gallery" id="gallery"></div>
 
-    loadGallery();
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const CLOUD_NAME = 'dyetbyoy3';
+        const fetchGalleryImages = async () => {
+            try {
+                const response = await axios.get(`https://res.cloudinary.com/${CLOUD_NAME}/image/list/gallery.json`);
+                const images = response.data.resources;
+                const gallery = document.getElementById('gallery');
+                images.forEach(image => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
+                    imgElement.alt = image.context?.custom?.alt || 'Gallery Image';
+                    gallery.appendChild(imgElement);
+                });
+            } catch (error) {
+                console.error('Error fetching gallery images:', error);
+            }
+        };
+        fetchGalleryImages();
+    </script>
+</body>
+</html>
