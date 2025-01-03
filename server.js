@@ -1,42 +1,63 @@
-ECHO is on.
-const express = require("express");
-const fs = require("fs");
-const cors = require("cors");
+onst express = require('express');
+const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+const mysql = require('mysql');
+const path = require('path');
+
+// إعداد Cloudinary
+cloudinary.config({
+    cloud_name: 'YOUR_CLOUD_NAME',
+    api_key: 'YOUR_API_KEY',
+    api_secret: 'YOUR_API_SECRET'
+});
+
+// إعداد Express
 const app = express();
-const PORT = 3000;
+const port = 3000;
 
-// تمكين CORS للسماح بالاتصال بين الواجهة الأمامية والخلفية
-app.use(cors());
-app.use(express.json());
-
-// ملف لتخزين الصور
-const IMAGE_FILE = "images.json";
-
-// إذا لم يكن الملف موجودًا، قم بإنشائه فارغًا
-if (!fs.existsSync(IMAGE_FILE)) {
-    fs.writeFileSync(IMAGE_FILE, JSON.stringify([]));
-}
-
-// واجهة API لحفظ روابط الصور
-app.post("/save-image", (req, res) => {
-    const { url, comment } = req.body;
-
-    // قراءة الصور الحالية
-    const images = JSON.parse(fs.readFileSync(IMAGE_FILE, "utf-8"));
-
-    // إضافة الصورة الجديدة
-    images.push({ url, comment });
-
-    // حفظ التحديثات في الملف
-    fs.writeFileSync(IMAGE_FILE, JSON.stringify(images, null, 2));
-    res.status(200).send({ message: "تم حفظ الصورة بنجاح!" });
+// إعداد قاعدة البيانات MySQL
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'yourpassword',
+    database: 'image_db'
 });
 
-// واجهة API لجلب الصور
-app.get("/get-images", (req, res) => {
-    const images = JSON.parse(fs.readFileSync(IMAGE_FILE, "utf-8"));
-    res.status(200).send(images);
+db.connect((err) => {
+    if (err) throw err;
+    console.log('Connected to database!');
 });
 
-// تشغيل الخادم
-app.listen(PORT, () => console.log(`الخادم يعمل على http://localhost:${PORT}`));
+// إعداد multer لتخزين الملفات مؤقتًا
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+// رفع الصورة إلى Cloudinary
+app.post('/upload', upload.single('image'), (req, res) => {
+    cloudinary.uploader.upload_stream((error, result) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).send('Error uploading image.');
+        }
+        
+        // تخزين الرابط في قاعدة البيانات
+        const sql = 'INSERT INTO images (url) VALUES (?)';
+        db.query(sql, [result.secure_url], (err, result) => {
+            if (err) throw err;
+            res.send('Image uploaded and URL saved successfully!');
+        });
+    }).end(req.file.buffer);
+});
+
+// عرض الصور المخزنة من قاعدة البيانات
+app.get('/gallery', (req, res) => {
+    const sql = 'SELECT * FROM images';
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        res.json(result);
+    });
+});
+
+app.listen(port, () => {
+    console.log(Server running at http://localhost:${port});
+});
