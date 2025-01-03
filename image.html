@@ -16,31 +16,31 @@
   <div id="gallery"></div>
 
   <script>
-    // Replace these with your credentials
     const CLOUD_NAME = "dyetbyoy3";
-    const API_KEY = "891185683182792";
-    const API_SECRET = "piqmBGXEM3mAWxI1EK0n4hUgqOE";
     const FOLDER_NAME = "gallery";
+    const API_BASE = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${FOLDER_NAME}.json`;
 
     async function fetchImages() {
-      const response = await fetch(https://api.cloudinary.com/v1_1/${CLOUD_NAME}/resources/image?prefix=${FOLDER_NAME}, {
-        headers: {
-          Authorization: "Basic " + btoa(${API_KEY}:${API_SECRET})
+      try {
+        const response = await fetch(API_BASE);
+        if (!response.ok) {
+          throw new Error("Failed to fetch images from Cloudinary");
         }
-      });
+        const data = await response.json();
 
-      const data = await response.json();
-      const gallery = document.getElementById("gallery");
-
-      data.resources.forEach(resource => {
-        const img = document.createElement("img");
-        img.src = resource.secure_url;
-        img.alt = "Image from Cloudinary";
-        gallery.appendChild(img);
-      });
+        const gallery = document.getElementById("gallery");
+        data.resources.forEach(resource => {
+          const img = document.createElement("img");
+          img.src = resource.secure_url;
+          img.alt = resource.public_id;
+          gallery.appendChild(img);
+        });
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
     }
 
-    fetchImages().catch(error => console.error("Error fetching images:", error));
+    fetchImages();
   </script>
 </body>
 </html>
