@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        #gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .image-container {
+            margin: 10px;
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Image Gallery</h1>
+    </header>
+
+    <section>
+        <div id="gallery"></div>
+    </section>
+
+    <footer>
+        &copy; 𝐑𝐨𝐲𝐚𝐥 𝐆𝐫𝐨𝐮𝐩
+    </footer>
+
+    <script>
+        // Load images from the database
+        function loadGallery() {
+            fetch('http://localhost:3000/gallery')
+                .then(response => response.json())
+                .then(images => {
+                    const gallery = document.getElementById("gallery");
+                    gallery.innerHTML = '';
+                    images.forEach(image => {
+                        const img = document.createElement("img");
+                        img.src = image.url;
+                        gallery.appendChild(img);
+                    });
+                })
+                .catch(error => console.error('Error loading images:', error));
+        }
+
+        // Load gallery on page load
+        loadGallery();
+    </script>
+</body>
+</html>
