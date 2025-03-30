@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Royal Group</title>
+    <link rel="icon" href="logo.png" type="image\x-icon">
+  <style>
+    /* إعدادات الصفحة الأساسية */
+    body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #EDEDED; /* Fallback color */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
+
+
+    header {
+      padding: 10px;
+      position: relative;
+    }
+
+    /* خلفية الـGIF على الجوانب فقط */
+    header::before,
+    header::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 27%;
+      height: 150%;
+      background: url('stars-animation.gif') center/cover no-repeat;
+      opacity: 0.5;
+      z-index: -1;
+    }
+    header::before {
+  left: 0;
+  transform: translateX(15%);
+}
+
+header::after {
+  right: 0;
+  transform: translateX(-15%);
+}
+
+    header::before { left: 0; }
+    header::after { right: 0; }
+
+    /* تنسيق صورة الشعار */
+    .image-container {
+      display: inline-block;
+      padding: 5px;
+      width: 130px;
+      height: 130px;
+      background: url('logo.png') no-repeat center center;
+      background-size: contain;
+    }
+
+    .image {
+      display: none;
+    }
+
+    /* تنسيق عنوان الموقع */
+    header h1 {
+      font-size: 30px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      font-family: 'Cinzel', serif;
+      margin-bottom: 0px;
+    }
+
+    header h1 .o {
+      position: relative;
+      display: inline-block;
+    }
+
+    header h1 .o .star {
+      display: none;
+    }
+
+    /* تنسيق قسم الترحيب */
+    section {
+      padding: 20px 20px;
+    }
+
+    .text-frame {
+      border: 5px solid black;
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      display: inline-block;
+      max-width: 60%;
+    }
+
+    .text-frame h2 {
+      font-family: 'Georgia', serif;
+      font-size: 12px;
+      margin: -5px 0 10px;
+    }
+
+    .text-frame p {
+      font-family: 'Arial', sans-serif;
+      font-size: 10px;
+      margin: 2px 0;
+      line-height: 1.3;
+    }
+
+    /* تنسيق الأزرار */
+    .link-container {
+      margin: 20px auto;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      color: black;
+      text-decoration: none;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: bold;
+      border: 2px solid black;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .link img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    .link:hover {
+      background-color: #dcdcdc;
+      transform: scale(1.05);
+    }
+
+    /* تنسيق الفوتر */
+    footer {
+      background-color: #444;
+      color: white;
+      padding: 10px;
+      font-size: 12px;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+
+    /* تصميم خاص للأجهزة الصغيرة */
+    @media (max-width: 768px) {
+      body {
+        font-size: 10px;
+      }
+
+      .link {
+        font-size: 12px;
+      }
+
+      header::before,
+      header::after {
+        width: 35%;
+        height: 120%;
+      }
+
+      .text-frame {
+        max-width: 80%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الهيدر -->
+  <header>
+    <div class="image-container">
+      <img src="logo.png" alt="𝐑𝐨𝐲𝐚𝐥 𝐆𝐫𝐨𝐮𝐩 𝐋𝐨𝐠𝐨" class="image">
+    </div>
+    <h1>
+      R<span class="o">
+        O
+      </span>YAL GROUP
+    </h1>
+  </header>
+
+  <!-- قسم الترحيب -->
+  <section>
+  <div class="text-frame">
+    <h2>Welcome to our website!</h2>
+    <p>Eid Al-Fitr Mubarak 𑁍</p>
+    <p>May Allah accept our deeds and grant you a joyful Eid ᰔ</p>
+    
+    <p style="margin-top: 5px;"></p>
+
+    <p>𑁍 أهلاً بكم في موقعنا، نُهَنئكم بحلول عيد الفطر المُبارك  </p>
+    <p>ᰔ تقبل الله منا ومنكم صالح الأعمال، وجعل أيامكم مُلؤها الفرح والبركات </p>
+  </div>
+</section>
+
+  <!-- روابط التواصل -->
+  <div class="link-container">
+    <a href="https://www.instagram.com/royal.plato" class="link" target="_blank">
+      <img src="instagram-icon.png" alt="Instagram Logo">𝐈𝐧𝐬𝐭𝐚𝐠𝐫𝐚𝐦
+    </a>
+    <a href="https://www.instagram.com/s/aGlnaGxpZ2h0OjE3OTA2MDg2NDk2ODk1MTI4?story_media_id=3477660572347679111&igsh=MTNpNTV2bnZqbmEycA==" class="link" target="_blank">
+      <img src="rules-icon.png" alt="Rules">𝐑𝐮𝐥𝐞𝐬
+    </a> 
+    <a href="https://forms.gle/hx6UtAQrgWVEdkvo9" class="link" target="_blank">
+      <img src="vote-icon.png" alt="Games Vote">𝐆𝐚𝐦𝐞𝐬 𝐕𝐨𝐭𝐞
+    </a> 
+    <a href="https://forms.gle/DNYpAp94XX5pt9JD7" class="link" target="_blank">
+      <img src="league-icon.png" alt="League Hub">  𝐋𝐞𝐚𝐠𝐮𝐞 𝐇𝐮𝐛
+    </a>
+  </div>
+
+  <!-- الفوتر -->
+  <footer>
+    © Royal Group
+  </footer>
+
+</body>
+</html>
